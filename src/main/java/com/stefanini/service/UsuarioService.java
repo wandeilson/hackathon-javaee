@@ -25,6 +25,9 @@ public class UsuarioService {
         if(usuarioRecuperado != null){
             throw new Exception(String.format("Login %s ja existente", usuario.getLogin()));
         }
+        if(!PasswordManager.isValidPassword(usuario.getSenha())){
+            throw new Exception(String.format("Senha %s nao e valida", usuario.getSenha()));
+        }
         usuario.setSenha(PasswordManager.criptografar(usuario.getSenha()));
         return usuarioRepository.save(usuario);
     }

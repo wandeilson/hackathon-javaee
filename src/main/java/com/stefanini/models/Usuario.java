@@ -5,7 +5,10 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 
 @Entity
 public class Usuario {
@@ -30,7 +33,9 @@ public class Usuario {
     @NotNull
     private String senha;
 
-    private Date dataNascimento;
+    private LocalDate dataNascimento;
+    private LocalDateTime dataCriacao;
+    private LocalDateTime dataUltimaAtualizacao;
 
     public Long getIdUser() {
         return idUser;
@@ -72,11 +77,35 @@ public class Usuario {
         this.senha = senha;
     }
 
-    public Date getDataNascimento() {
+    public LocalDate getDataNascimento() {
         return dataNascimento;
     }
 
-    public void setDataNascimento(Date dataNascimento) {
+    public void setDataNascimento(LocalDate dataNascimento) {
         this.dataNascimento = dataNascimento;
+    }
+
+    public String getDataCriacao() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM-dd HH:mm:ss");
+        if(dataCriacao != null){ return dataCriacao.format(formatter); }
+        else{
+            return null;
+        }
+    }
+
+    public void setDataCriacao(LocalDateTime dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
+
+    public String getDataUltimaAtualizacao() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM-dd HH:mm:ss");
+        if(dataUltimaAtualizacao != null){ return dataUltimaAtualizacao.format(formatter) ;}
+        else{
+            return null;
+        }
+    }
+
+    public void setDataUltimaAtualizacao(LocalDateTime dataUltimaAtualizacao) {
+        this.dataUltimaAtualizacao = dataUltimaAtualizacao;
     }
 }

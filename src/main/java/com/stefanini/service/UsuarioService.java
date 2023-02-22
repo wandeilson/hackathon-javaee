@@ -7,20 +7,26 @@ import com.stefanini.util.PasswordManager;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
-import javax.validation.Valid;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @ApplicationScoped
 public class UsuarioService {
 
     @Inject
-    UsuarioRepository usuarioRepository;
+    private UsuarioRepository usuarioRepository;
 
-    public List<Usuario> listarUsuarios (){
+    public List<Usuario> listar(){
         return usuarioRepository.listAll();
     }
+
+    public List<Usuario> anivesariantesDoMes (){
+        return usuarioRepository.findBirthdaysOfTheMonth(LocalDate.now().getMonth());
+    }
+
     @Transactional
-    public Usuario salvarUsuario (Usuario usuario) throws Exception {
+    public Usuario salvar(Usuario usuario) throws Exception {
         Usuario usuarioRecuperado = usuarioRepository.findByLogin(usuario.getLogin());
         if(usuarioRecuperado != null){
             throw new Exception(String.format("Login %s ja existente", usuario.getLogin()));
@@ -29,21 +35,23 @@ public class UsuarioService {
             throw new Exception(String.format("Senha %s nao e valida", usuario.getSenha()));
         }
         usuario.setSenha(PasswordManager.criptografar(usuario.getSenha()));
+        usuario.setDataCriacao(LocalDateTime.now());
         return usuarioRepository.save(usuario);
     }
     @Transactional
-    public void deletarUsuario (Long id){
+    public void deletar(Long id){
         usuarioRepository.delete(id);
     }
 
     @Transactional
-    public Usuario atualizarUsuario ( Long id, Usuario usuario){
+    public Usuario atualizar(Long id, Usuario usuario){
         Usuario usuarioSalvo = usuarioRepository.findById(id);
         usuarioSalvo.setEmail(usuario.getEmail());
         usuarioSalvo.setSenha(usuario.getSenha());
         usuarioSalvo.setLogin(usuario.getLogin());
         usuarioSalvo.setDataNascimento(usuario.getDataNascimento());
         usuarioSalvo.setNome(usuario.getNome());
+        usuarioSalvo.setDataUltimaAtualizacao(LocalDateTime.now());
         return usuarioRepository.save(usuarioSalvo);
     }
 }

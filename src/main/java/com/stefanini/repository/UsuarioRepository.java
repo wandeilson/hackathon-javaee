@@ -7,6 +7,9 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import java.time.LocalDate;
+import java.time.Month;
+import java.util.List;
 
 @ApplicationScoped
 public class UsuarioRepository extends GenericDAO<Usuario, Long> {
@@ -24,4 +27,15 @@ public class UsuarioRepository extends GenericDAO<Usuario, Long> {
         }
         return usuario;
     }
+
+    public List<Usuario> findBirthdaysOfTheMonth (Month mes) {
+        Query nativeQuery
+                = getEntityManager().createNativeQuery(
+                        "SELECT * FROM usuario WHERE MONTH(dataNascimento) = :mes ;",
+                Usuario.class);
+        nativeQuery.setParameter("mes", mes.getValue());
+
+        return nativeQuery.getResultList();
+    }
+
 }

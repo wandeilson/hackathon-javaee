@@ -8,8 +8,7 @@ import java.util.regex.Pattern;
 public class PasswordManager {
 
     public static String criptografar(String senha){
-        String senhaCriptografada = BcryptUtil.bcryptHash(senha);
-        return senhaCriptografada;
+        return BcryptUtil.bcryptHash(senha);
     }
 
     public static boolean verificarSeSenhaEIgual(String senhaOriginal, String senhaCriptografada){

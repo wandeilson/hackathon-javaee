@@ -3,15 +3,24 @@ package com.stefanini.models;
 
 import io.quarkus.elytron.security.common.BcryptUtil;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
 public class teste {
 
     public static void main(String[] args) {
-        String password = "Co9";
-        String regex = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{4,10}$";
-        System.out.println(isValidPassword(password,regex));
+        //String password = "Co9";
+        //String regex = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{4,10}$";
+        //System.out.println(isValidPassword(password,regex));
+        LocalDate dataNascimenti = LocalDate.of(1997,11,24);
+        System.out.println(dataNascimenti);
+
+        LocalDateTime dataCriacao = LocalDateTime.now();
+        System.out.println(dataCriacao);
+        System.out.println(dataCriacao.getMonthValue());
     }
 
     public static boolean isValidPassword(String senha,String regex){
